@@ -29,6 +29,13 @@ jobs:
           cd JamSpell
           python setup.py bdist_wheel
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist/*.whl
+          if-no-files-found: error
+
   detectron2:
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +53,40 @@ jobs:
           cd detectron2
           git checkout v0.6
           python setup.py bdist_wheel
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist/*.whl
+          if-no-files-found: error
+
+  release:
+    needs: [jamspell, detectron2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update tag
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: 'latest'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: wheels
+          path: wheels
+
+      - uses: ncipollo/release-action@v1
+        with:
+          name: 'Continuous build'
+          tag: 'latest'
+          commit: 'main'
+          makeLatest: true
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          artifacts: 'assets/*.whl'
