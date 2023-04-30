@@ -1,0 +1,30 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  jamspell:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install tesseract-ocr tesseract-ocr-spa swig4.0
+
+      - name: Install pip dependencies
+        run: pip install setuptools wheel
+
+      - name: Build JamSpell
+        run: |
+          git clone https://github.com/bakwc/JamSpell.git
+          cd JamSpell
+          python setup.py bdist_wheel
