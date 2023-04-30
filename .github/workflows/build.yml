@@ -28,3 +28,21 @@ jobs:
           git clone https://github.com/bakwc/JamSpell.git
           cd JamSpell
           python setup.py bdist_wheel
+
+  detectron2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install pip dependencies
+        run: pip install setuptools wheel --extra-index-url https://download.pytorch.org/whl/cpu torch==2.0.0 torchvision==0.15.1
+
+      - name: Build Detectron2
+        run: |
+          git clone https://github.com/facebookresearch/detectron2.git
+          cd detectron2
+          git checkout v0.6
+          python setup.py bdist_wheel
