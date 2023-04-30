@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: dist/*.whl
+          path: ${{ github.workspace }}/JamSpell/dist/*.whl
           if-no-files-found: error
 
   detectron2:
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: dist/*.whl
+          path: ${{ github.workspace }}/detectron2/dist/*.whl
           if-no-files-found: error
 
   release:
@@ -89,4 +89,4 @@ jobs:
           makeLatest: true
           allowUpdates: true
           artifactErrorsFailBuild: true
-          artifacts: 'assets/*.whl'
+          artifacts: 'wheels/*.whl'
