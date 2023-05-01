@@ -23,9 +23,12 @@ jobs:
       - name: Install pip dependencies
         run: pip install setuptools wheel
 
+      - name: Debug
+        run: strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
       - name: Build JamSpell
         run: |
-          git clone https://github.com/bakwc/JamSpell.git
+          git clone https://github.com/epassaro/JamSpell.git
           cd JamSpell
           python setup.py bdist_wheel
 
