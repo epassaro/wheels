@@ -18,13 +18,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install tesseract-ocr tesseract-ocr-spa swig4.0
+          sudo apt-get install libstdc++-10-dev tesseract-ocr tesseract-ocr-spa swig4.0
 
       - name: Install pip dependencies
         run: pip install setuptools wheel
-
-      - name: Debug
-        run: strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 
       - name: Build JamSpell
         run: |
