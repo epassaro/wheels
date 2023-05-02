@@ -8,12 +8,15 @@ on:
 
 jobs:
   jamspell:
+    strategy:
+      matrix:
+        py_version: ['3.9', '3.10', '3.11']
     runs-on: ubuntu-20.04
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.py_version }}
 
       - name: Install dependencies
         run: |
@@ -37,12 +40,15 @@ jobs:
           if-no-files-found: error
 
   detectron2:
+    strategy:
+      matrix:
+        py_version: ['3.9', '3.10', '3.11']
     runs-on: ubuntu-20.04
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.py_version }}
 
       - name: Install pip dependencies
         run: pip install setuptools wheel --extra-index-url https://download.pytorch.org/whl/cpu torch==2.0.0 torchvision==0.15.1
